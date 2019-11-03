@@ -1,0 +1,2 @@
+g++ -Wall -g -DDEBUG  -c "../Sources/src/main.cpp" -o "../obj/Debug/main.o" &&
+g++  -o "Debug/PacMan.out" "../obj/Debug/main.o" "../obj/Debug/miniwin.o"  -pthread  -lX11
