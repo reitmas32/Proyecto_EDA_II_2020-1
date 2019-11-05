@@ -11,13 +11,15 @@
 
 #include "Pacman.hpp"
 
+#include "Figura.hpp"
+
 const int FILAS = 25;
 
 const int COLUMNAS = 19;
 
 class Tablero
 {
-private:
+public:
     Cuadro tablero[COLUMNAS][FILAS];
 public:
     Tablero();
@@ -27,7 +29,7 @@ public:
 
     void pinta();
 
-    bool colision(Pacman pacman);
+    bool colision(Figura figura);
 
     void repinta();
 };
@@ -553,15 +555,15 @@ void Tablero::pinta(){
     }
 }
 
-bool Tablero::colision(Pacman pacman){
+bool Tablero::colision(Figura figura){
 
-        if(pacman.getPosicion().x < 0 || pacman.getPosicion().x >= COLUMNAS){
+        if(figura.getPosicion().x < 0 || figura.getPosicion().x >= COLUMNAS){
             return true;
         }
-        if(pacman.getPosicion().y < 0 || pacman.getPosicion().y >= FILAS){
+        if(figura.getPosicion().y < 0 || figura.getPosicion().y >= FILAS){
             return true;
         }
-        if(this->tablero[pacman.getPosicion().x][pacman.getPosicion().y].getColorSolido() != Colors::Black){
+        if(this->tablero[figura.getPosicion().x][figura.getPosicion().y].getColorSolido() != Colors::Black){
             return true;
         }
         return false;
