@@ -1,13 +1,13 @@
 #ifndef PACMAN_HPP
 #define PACMAN_HPP
 
-#include "Cuadro.hpp"
+#include "Figura.hpp"
 
-#include "Tablero.hpp"
+//#include "Tablero.hpp"
 
 const int RADIO = TAM / 2; 
 
-class Pacman : public Cuadro
+class Pacman : public Figura
 {
 private:
 public:
@@ -18,10 +18,6 @@ public:
     void pinta_izq();
     void pinta_arri();
     void pinta_abajo();
-    void mueve_arriba();
-    void mueve_abajo();
-    void mueve_derecha();
-    void mueve_izquierda();
 };
 
 Pacman::Pacman(/* args */)
@@ -243,30 +239,6 @@ void Pacman::pinta_abajo(){
             MARGEN + 1 + this->getPosicion().x * TAM + RADIO + 3,
             MARGEN + 1 + this->getPosicion().y * TAM + RADIO + 6);
     
-
-}
-
-void Pacman::mueve_arriba(){
-
-    this->posicion.y = this->posicion.y - 1;
-
-}
-
-void Pacman::mueve_abajo(){
-
-    this->posicion.y++;
-
-}
-
-void Pacman::mueve_derecha(){
-
-    this->posicion.x++;
-
-}
-
-void Pacman::mueve_izquierda(){
-
-    this->posicion.x--;
 
 }
 
