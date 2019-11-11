@@ -1,3 +1,6 @@
+#ifndef VERTEX_HPP
+#define VERTEX_HPP
+
 #include <iostream>
 // para cin, cout, cerr. (leer del teclado e imprimir en la pantalla)
 
@@ -151,3 +154,5 @@ void Vertex::print(){
              <<", Color: "<<color<<", Predecesor: "<<get_predecesor()<<std::endl;
 }
 #endif
+
+#endif	//VERTEX_HPP
