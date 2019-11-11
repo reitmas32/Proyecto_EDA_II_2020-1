@@ -1,3 +1,5 @@
+#ifndef GRAPH_HPP
+#define GRAPH_HPP
 #include "Vertex.hpp"
 
 void printQ(std::list<Vertex> _this){
@@ -19,6 +21,7 @@ private:
 
 public:
 	Graph();
+	~Graph();
 //	Graph( std::vector<Vertex> vertices ); 
 
 	bool add_vertex( Vertex v );
@@ -39,6 +42,11 @@ public:
 Graph::Graph()
 {
 	// nada (por el momento)
+}
+
+Graph::~Graph()
+{
+	this->vertices.~map();
 }
 
 bool Graph::add_vertex( Vertex v )
@@ -230,3 +238,5 @@ void Graph::DIJSKTRA(std::string start){
 	}
 	
 }
+
+#endif	//GRAPH_HPP
