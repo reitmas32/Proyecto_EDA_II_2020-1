@@ -24,13 +24,11 @@ std::string connectNums(int num1, int num2){
 
 class Fantasma : public Figura{
 private:
-    Graph* mapa;
 public:
     Fantasma(/* args */);
     Fantasma(int x, int y, std::vector<int> colorSolido, std::vector<int> colorDecora);
     ~Fantasma();
 
-    int creaMapa();
     void pinta();
 };
 
@@ -47,39 +45,6 @@ Fantasma::Fantasma(int x, int y, std::vector<int> colorSolido, std::vector<int> 
 
 Fantasma::~Fantasma()
 {
-}
-
-int Fantasma::creaMapa(){
-    this->mapa = new Graph();
-    for(int i = 0; i < COLUMNAS; i++){
-        for(int j = 0; j < FILAS; j++){
-            if(MAPAS::LevelOne[j][i] == 0){
-                this->mapa->add_vertex(Vertex(connectNums(i,j)));
-            }
-            
-        }
-    }
-    
-    for(int i = 0; i < COLUMNAS; i++){
-        for(int j = 0; j < FILAS; j++){
-            if(MAPAS::LevelOne[j][i] == 0){
-                if(MAPAS::LevelOne[j - 1][i] == 0){
-                    this->mapa->add_edge(connectNums(i,j),connectNums(i,j - 1));
-                }
-                if(MAPAS::LevelOne[j + 1][i] == 0){
-                    this->mapa->add_edge(connectNums(i,j),connectNums(i,j + 1));
-                }
-                if(MAPAS::LevelOne[j][i - 1] == 0){
-                    this->mapa->add_edge(connectNums(i,j),connectNums(i - 1,j));
-                }
-                if(MAPAS::LevelOne[j][i + 1] == 0){
-                    this->mapa->add_edge(connectNums(i,j),connectNums(i + 1,j));
-                }
-            }
-        }
-    }    
-    
-    return 0;
 }
 
 void Fantasma::pinta(){
