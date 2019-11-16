@@ -1,17 +1,26 @@
 #ifndef MAPAS_HPP
 #define MAPAS_HPP
 
-#include <iostream>
-
-#include "Estructuras_de_Datos/Graph/Graph.hpp"
-
-const int FILAS = 25;//
-
-const int COLUMNAS = 19;//
-
 namespace MAPAS
 {
-    
+
+/**
+ * Se usara la biblioteca estandar de I/O de C++
+ **/
+#include <iostream>
+
+/**
+ * Se utilizara la estructurade datos Graph
+ **/
+#include "Estructuras_de_Datos/Graph/Graph.hpp"
+
+//Numero de filas de el mapa
+const int FILAS = 25;//
+
+//Numero de columnas del mapa
+const int COLUMNAS = 19;//
+
+    //Mapa principal
     uint8_t LevelOne[FILAS][COLUMNAS] = {
         {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},
         {2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2},
