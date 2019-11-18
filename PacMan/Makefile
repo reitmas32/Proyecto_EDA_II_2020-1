@@ -26,4 +26,4 @@ main.o:$(Sour)/main.o miniwin.o
 	g++ -Wall -g -DDEBUG  -c "$(Sour)/main.cpp" -o "$(Obj)/main.o"
 
 Pacman:main.o miniwin.o
-	g++  -o "bin/Debug/PacMan" "obj/Debug/main.o" "obj/Debug/Graphics_Engine/miniwin.o"  -pthread  -lX11
+	g++  -o "bin/Debug/PacMan" "obj/Debug/main.o" "obj/Debug/Graphics_Engine/miniwin.o" -pthread  -lX11
