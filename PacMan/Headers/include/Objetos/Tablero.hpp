@@ -13,73 +13,79 @@
 
 #include "../Estructuras_de_Datos/Graph.hpp"
 
+#include <fstream>
 std::string intToString(int num){
     std::stringstream sout;
     sout << num;
     return sout.str();
-} 
-
-bool searchInList(std::list<std::string> lista, std::string key){
-    for(std::string item : lista){
-        if(item == key){
-            return true;
-        }
-    }
-    return false;
 }
-
-
 class Tablero
 {
 public:
-    Cuadro tablero[COLUMNAS][FILAS];
-    Graph LevelOneGraph;
+    
+    int posPacman;
+    int posFantasma;
+
+    size_t Columnas;
+    size_t Filas;
+    uint8_t** mapa;
+    Cuadro** tablero;
+    size_t vidas;
+    std::vector<int> ColorPared;
+    std::vector<int> ColorCamino;
+    size_t puntos;
 public:
     Tablero();
+    Tablero(int mapa, std::vector<int> ColorPared, std::vector<int> ColorCamino);
     ~Tablero();
 
     void creaMundo();
+
+    void creaGrafo();
 
     void pinta();
 
     bool colision(Figura figura);
 
     void repinta();
+
+    bool deadPacman(Pacman p, Fantasma* f);
 };
 
 Tablero::Tablero(/* args */)
 {
-    this->LevelOneGraph = Graph();
-    std::list<std::string> lista;
-    for(size_t i = 0; i < FILAS; i++){
-        for (size_t j = 0; j < COLUMNAS; j++)
-        {
-            if(MAPAS::LevelOne[i][j] == 0){
-                std::string name = intToString((i*COLUMNAS)+j);
-                lista.push_back(name);
+
+}
+
+Tablero::Tablero(int mapa, std::vector<int> ColorPared, std::vector<int> ColorCamino){
+    
+    this->ColorPared = ColorPared;
+    this->ColorCamino = ColorCamino;
+    switch (mapa)
+    {
+    case MAPAS::LEVEL_ONE:
+        this->Columnas = MAPAS::COLUMNAS_LevelOne;
+        this->Filas = MAPAS::FILAS_LevelOne;
+        this->mapa = (uint8_t**)calloc(this->Filas, sizeof(uint8_t*));
+        for( size_t i = 0; i < this->Filas; i++){
+            this->mapa[i] = (uint8_t*)calloc(this->Columnas, sizeof(uint8_t));
+        }
+        for(size_t i = 0; i < this->Filas; i++){
+            for( size_t j = 0; j < this->Columnas; j++){
+                this->mapa[i][j] = MAPAS::LevelOne[i][j];
             }
         }
-        
-    }
-    for(std::string name : lista){
-        this->LevelOneGraph.add_vertex(Vertex(name));
-    }
-
-    for(std::string item : lista){
-        if(searchInList(lista, intToString(atoi(item.c_str()) + 1 ) ) ){
-            std::cout<<item<<", "<<intToString(atoi(item.c_str()) + 1 )<<std::endl;
-            this->LevelOneGraph.add_edge(item,intToString(atoi(item.c_str()) + 1 ));
+        this->tablero = (Cuadro**)calloc(this->Filas, sizeof(Cuadro*));
+        for( size_t i = 0; i < this->Filas; i++){
+            this->tablero[i] = (Cuadro*)calloc(this->Columnas, sizeof(Cuadro));
         }
-        if(searchInList(lista, intToString(atoi(item.c_str()) + COLUMNAS ) ) ){
-            std::cout<<item<<", "<<intToString(atoi(item.c_str()) + COLUMNAS )<<std::endl;
-            this->LevelOneGraph.add_edge(item,intToString(atoi(item.c_str()) + COLUMNAS ));
-        }
+        break;
+    
+    default:
+        break;
     }
-
-    lista = LevelOneGraph.goTo("40","222");
-    for(std::string g : lista){
-        std::cout<<g<<", ";
-    }
+    this->vidas = 3;
+    this->puntos = 0;
 }
 
 Tablero::~Tablero()
@@ -89,22 +95,23 @@ Tablero::~Tablero()
 
 void Tablero::creaMundo(){
 
-    for(int i = 0; i < COLUMNAS; i++){
-        for(int j = 0; j < FILAS; j++){
-            switch (MAPAS::LevelOne[j][i])
+    for(size_t i = 0; i < this->Filas; i++){
+        for(size_t j = 0; j < this->Columnas; j++){
+            switch (this->mapa[i][j])
             {
             case 0:
-                this->tablero[i][j].setPosicion(i,j);
-                this->tablero[i][j].setColorSolido(Colors::Black);
-                this->tablero[i][j].setColorDecora(Colors::Black);
+            case 3:
+                this->tablero[i][j].setPosicion(j,i);
+                this->tablero[i][j].setColorSolido(this->ColorCamino);
+                this->tablero[i][j].setColorDecora(this->ColorCamino);
             break;
             case 1:
-                this->tablero[i][j].setPosicion(i,j);
-                this->tablero[i][j].setColorSolido(Colors::Gray);
-                this->tablero[i][j].setColorDecora(Colors::Gray);
+                this->tablero[i][j].setPosicion(j,i);
+                this->tablero[i][j].setColorSolido(this->ColorPared);
+                this->tablero[i][j].setColorDecora(this->ColorPared);
             break;
             case 2:
-                this->tablero[i][j].setPosicion(i,j);
+                this->tablero[i][j].setPosicion(j,i);
                 this->tablero[i][j].setColorSolido(Colors::Brown);
                 this->tablero[i][j].setColorDecora(Colors::Brown);
             break;
@@ -116,8 +123,9 @@ void Tablero::creaMundo(){
 }
 
 void Tablero::pinta(){
-    for(int i = 0; i < COLUMNAS; i++){
-        for(int j = 0; j < FILAS; j++){
+    vredimensiona(this->Columnas * TAM + MARGEN * 2 + TAM*6, this->Filas * TAM + MARGEN * 2);
+    for(size_t i = 0; i < this->Filas; i++){
+        for(size_t j = 0; j < this->Columnas; j++){
             this->tablero[i][j].pinta();
         }
     }
@@ -125,13 +133,13 @@ void Tablero::pinta(){
 
 bool Tablero::colision(Figura figura){
 
-        if(figura.getPosicion().x < 0 || figura.getPosicion().x >= COLUMNAS){
+        if(figura.getPosicion().x < 0 || figura.getPosicion().x >= (int)this->Columnas){
             return true;
         }
-        if(figura.getPosicion().y < 0 || figura.getPosicion().y >= FILAS){
+        if(figura.getPosicion().y < 0 || figura.getPosicion().y >= (int)this->Filas){
             return true;
         }
-        if(this->tablero[figura.getPosicion().x][figura.getPosicion().y].getColorSolido() != Colors::Black){
+        if(this->tablero[figura.getPosicion().y][figura.getPosicion().x].getColorSolido() != this->ColorCamino){
             return true;
         }
         return false;
@@ -140,7 +148,16 @@ bool Tablero::colision(Figura figura){
 void Tablero::repinta(){
     borra();
     this->pinta();
+
+    for(size_t i = 0; i < this->vidas ; i++){
+        Pacman p_v = Pacman(23,2+i*2,Colors::Yellow,Colors::Black);
+        p_v.pinta_der();
+    }
+    color(BLANCO);
+    texto(23*TAM, 10*TAM, "Puntos:");
+    texto(23*TAM,11*TAM, intToString(this->puntos));
     refresca();
 }
+
 
 #endif  //TABLERO_HPP
