@@ -14,6 +14,7 @@ public:
     ~Comida();
 
     void pinta();
+    void pintaGrande();
 };
 
 Comida::Comida(int x, int y, std::vector<int> colorSolido, std::vector<int> colorDecora)
@@ -40,6 +41,17 @@ void Comida::pinta(){
                         MARGEN + 1 + this->getPosicion().y * TAM + 6,
                         MARGEN + 1 + this->getPosicion().x * TAM + 8,
                         MARGEN + 1 + this->getPosicion().y * TAM + 8);
+}
+
+void Comida::pintaGrande(){
+    color_rgb(getColorSolido()[0],
+              getColorSolido()[1],
+              getColorSolido()[2]
+    );
+
+    circulo_lleno(  MARGEN + 1 + this->getPosicion().x * TAM + 7,
+                    MARGEN + 1 + this->getPosicion().y * TAM + 6,
+                    3);
 }
 
 #endif  //COMIDA_HPP
