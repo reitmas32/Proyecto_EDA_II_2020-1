@@ -4,10 +4,9 @@ Build and Compile
 
 #Linux 
 
-    Ejecuta el arcivo PacMan/bin/compiler.out
+    Ejecuta el comando el "make Pacman"
+    en la carpeta PacMan
 
-    Ingresa a la carpera PacMan/bin/Debug
-
-    Y ejecuta el archivo PacMan.out
+    El ejecutable esta en PacMan/bin/Debug y es Pacman sin el .out
 
 
