@@ -13,12 +13,21 @@
 
 class Fantasma : public Figura{
 private:
+    int dir;
+    int time;
 public:
+    std::list<std::string> roadToPacman;
     Fantasma(/* args */);
     Fantasma(int x, int y, std::vector<int> colorSolido, std::vector<int> colorDecora);
     ~Fantasma();
 
     void pinta();
+
+    int getDir(){return dir;}
+    int getTime(){return time;}
+
+    void setDir(int dir){this->dir = dir;}
+    void setTime(int time){this->time = time;}
 };
 
 Fantasma::Fantasma(/* args */)
@@ -30,6 +39,8 @@ Fantasma::Fantasma(int x, int y, std::vector<int> colorSolido, std::vector<int> 
     this->setPosicion(x,y);
     this->setColorSolido(colorSolido);
     this->setColorDecora(colorDecora);
+    this->setDir(0);
+    this->setTime(0);
 }
 
 Fantasma::~Fantasma()
