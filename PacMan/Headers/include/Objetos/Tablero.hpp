@@ -9,16 +9,21 @@
 
 #include "Pacman.hpp"
 
-#include "../Mapas.hpp"
 
-#include "../Estructuras_de_Datos/Graph.hpp"
+
+#include "../Graphics_Engine/Mapas.hpp"
+
+#include "../../Estructuras/Grafo/Grafo.hpp"
 
 #include <fstream>
+
+//Convierte de int a string
 std::string intToString(int num){
     std::stringstream sout;
     sout << num;
     return sout.str();
 }
+
 class Tablero
 {
 public:

@@ -47,7 +47,8 @@
         "typeinfo": "cpp",
         "bit": "cpp",
         "map": "cpp",
-        "cinttypes": "cpp"
+        "cinttypes": "cpp",
+        "cstring": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

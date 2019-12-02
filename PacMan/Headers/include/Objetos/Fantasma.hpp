@@ -7,9 +7,9 @@
 
 #include "Figura.hpp"
 
-#include "../Mapas.hpp"
+#include "../Graphics_Engine/Mapas.hpp"
 
-#include "../Estructuras_de_Datos/Graph.hpp"
+#include "../../Estructuras/Grafo/Grafo.hpp"
 
 class Fantasma : public Figura{
 private:

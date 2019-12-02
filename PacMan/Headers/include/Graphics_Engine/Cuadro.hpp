@@ -24,14 +24,14 @@
 using namespace miniwin;
 
 /**
- * Es el margen del Diplay
+ * Es el margen del Display
  **/
-const int MARGEN = 20;
+const int MARGEN = 25;
 
 /**
  * Es el tamaño que tendra cada cuadro
  **/
-const int TAM = 15;
+const int TAM = 20;
 
 /**
  * Estructura que almacena las coordenadas de cada cuadro respecto a todo el Display
@@ -56,25 +56,29 @@ class Cuadro
 protected:
     Coord posicion;
     int id;
-    std::vector<int> colorSolido;
-    std::vector<int> colorDecora;
+    int colorSolido[3];
+    int colorDecora[3];
 public:
     Cuadro(/* args */);
-    Cuadro(int x, int y, std::vector<int> colorSolido, std::vector<int> colorDecora);
+    Cuadro(int x, int y, int colorSolido[], int colorDecora[]);
     ~Cuadro();
 
     Coord getPosicion(){return this->posicion;}
-    std::vector<int> getColorSolido(){return this->colorSolido;}
-    std::vector<int> getColorDecora(){return this->colorDecora;}
+    int* getColorSolido(){return this->colorSolido;}
+    int* getColorDecora(){return this->colorDecora;}
     int getId(){return this->id;}
 
     void setPosicion(int x, int y){posicion.x = x; posicion.y = y;}
 
-    void setColorSolido(std::vector<int> colorSolido){
-        for (int i : colorSolido)   this->colorSolido.push_back(i);
+    void setColorSolido(int colorSolido[]){
+        for (size_t i = 0; i < 3; i++){
+            this->colorSolido[i] = colorSolido[i];
+        }
     }
-    void setColorDecora(std::vector<int> colorDecora){
-        for (int i : colorDecora)   this->colorDecora.push_back(i);
+    void setColorDecora(int colorDecora[]){
+        for (size_t i = 0; i < 3; i++){
+            this->colorDecora[i] = colorDecora[i];
+        }
     }
     void setId(int id){this->id = id;}
 
@@ -85,7 +89,7 @@ Cuadro::Cuadro(/* args */)
 {
 }
 
-Cuadro::Cuadro(int x, int y, std::vector<int> colorSolido, std::vector<int> colorDecora)
+Cuadro::Cuadro(int x, int y, int colorSolido[], int colorDecora[])
 {
     
     this->setPosicion(x,y);
